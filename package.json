@@ -1,0 +1,23 @@
+{
+  "name": "cultart",
+  "version": "1.0.0",
+  "description": "cultural art remote shop",
+  "main": "index.js",
+  "scripts": {
+    "start" : "node src/app.js",
+    "dev" : "nodemon src/app.js"
+  },
+  "keywords": [
+    "art",
+    "cult",
+    "painiting",
+    "agrilic",
+    "pen",
+    "drawings"
+  ],
+  "author": "sasikumarsudharsan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
