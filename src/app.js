@@ -2,11 +2,18 @@ const express = require('express');
 
 const app = express();
 
-app.use('/(ab)+(cd)*ef', (error, req, res, next) => {
-    console.log(error,"err")
-    // res.send('this is art overview url');
-}, (req, res, next) => {
-    res.send('2nd response');
+app.use('/arts', (req, res, next) => {
+    throw new Error('something went wrong!!')
+})
+
+app.use('/', (err, req, res, next) => {
+    if(err){
+        console.log(err,"err")
+        res.status(500).send('something went wrong');
+    }
+    else{
+        res.send('response!!')
+    }
 })
 
 app.listen(3000, ()=>{
