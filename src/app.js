@@ -1,21 +1,24 @@
 const express = require('express');
+const dbConnection = require('./utils/config/database');
+const Users = require('./models/Users');
 
 const app = express();
 
-app.use('/arts', (req, res, next) => {
-    throw new Error('something went wrong!!')
-})
+app.use(express.json());
 
-app.use('/', (err, req, res, next) => {
-    if(err){
-        console.log(err,"err")
-        res.status(500).send('something went wrong');
+app.post("/signup", async (req, res) => {
+    const signupData = new Users(req.body); 
+    try{
+        await signupData.save();
+        res.send("user added successfully");
     }
-    else{
-        res.send('response!!')
+    catch(error){
+        res.send(400, error+' something went wrong')
     }
-})
-
-app.listen(3000, ()=>{
-    console.log('server port 3000 now listening...')
 });
+
+dbConnection().then((con)=>{
+    app.listen(3000, ()=>{
+        console.log('server port 3000 now listening...');
+    });
+}).catch(console.error);
