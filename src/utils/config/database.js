@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const dbConString = "mongodb+srv://cultart:cultart123@devcultart.zyvgq.mongodb.net/cultArt";
+const dbConString = process.env.DB_CONNECTION_STRING;
 
 const dbConnection = async () => {
     await mongoose.connect(dbConString);

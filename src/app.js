@@ -17,6 +17,17 @@ app.post("/signup", async (req, res) => {
     }
 });
 
+app.get("/profile", async (req, res) => {
+    const profileData = new Users(); 
+    try{
+        const profiles = await profileData.find({});
+        res.send(profiles);
+    }
+    catch(error){
+        res.send(400, error + ' something went wrong');
+    }
+});
+
 dbConnection().then((con)=>{
     app.listen(3000, ()=>{
         console.log('server port 3000 now listening...');
