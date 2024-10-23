@@ -85,12 +85,36 @@ app.get("/profile", isUser, async (req, res) => {
 app.patch("/profile", isUser, async (req, res) => {
     try {
         const data = req.user;
-        res.send(data);
+
+        const ALLOWED_FIELDS = ["firstName", "lastName", "dob", "gender", "phone"];
+
+        const isAllowedFields = Object.keys(req.body).every(key => ALLOWED_FIELDS.includes(key));
+
+        if(!isAllowedFields){
+            throw new Error('Not permmitted fields included!!');
+        }
+
+        const user = await Users.findByIdAndUpdate({_id: data._id}, req.body, { returnDocument: "after", runValidators: true});
+
+        res.send(user);
     }
     catch(error){
-        res.status(400).send(error + ' something went wrong');
+        res.status(400).send('Error: '+ error);
     }
 });
+
+app.delete("/profile", isUser, async (req, res) => {
+    try {
+        const data = req.user;
+
+        const user = await Users.findByIdAndDelete({_id: data._id});
+
+        res.send("Account deleted successfully!")
+    }
+    catch(error){
+        res.status(400).send('Error: '+ error);
+    }
+})
 
 dbConnection().then((con)=>{
     app.listen(3000, ()=>{
